@@ -22,7 +22,6 @@ public class Todo {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Constructors
     public Todo() {}
 
     public Todo(String title, String comment, Boolean isCompleted, Date expiryDate, User user) {
@@ -34,7 +33,6 @@ public class Todo {
     }
 
 
-    // Getters and setters
     public UUID getId() {
         return id;
     }

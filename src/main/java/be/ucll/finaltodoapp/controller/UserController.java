@@ -3,6 +3,8 @@ package be.ucll.finaltodoapp.controller;
 import be.ucll.finaltodoapp.entity.User;
 import be.ucll.finaltodoapp.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +40,15 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody User newUser, @AuthenticationPrincipal UserDetails currentUser) {
+        if (currentUser != null) {
+            userService.saveUser(newUser);
+            return ResponseEntity.ok("User added successfully");
+        } else {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
     }
 }

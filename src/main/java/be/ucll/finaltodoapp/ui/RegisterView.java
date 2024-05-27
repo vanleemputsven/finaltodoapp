@@ -50,13 +50,18 @@ public class RegisterView extends VerticalLayout {
         registerButton.setWidth("300px");
         registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         registerButton.addClickListener(event -> {
-            if (validateInput(firstName, lastName, email, password)) {
-                User newUser = new User(email.getValue().trim().toLowerCase(), firstName.getValue(), lastName.getValue(), password.getValue());
-                userService.saveUser(newUser);
-                Notification.show("User registered successfully!");
-                getUI().ifPresent(ui -> ui.navigate("login"));
+            String validationError = validateInput(firstName, lastName, email, password);
+            if (validationError == null) {
+                try {
+                    User newUser = new User(email.getValue().trim().toLowerCase(), firstName.getValue(), lastName.getValue(), password.getValue());
+                    userService.saveUser(newUser);
+                    Notification.show("User registered successfully!");
+                    getUI().ifPresent(ui -> ui.navigate("login"));
+                } catch (IllegalArgumentException e) {
+                    Notification.show(e.getMessage());
+                }
             } else {
-                Notification.show("Please fill all fields correctly.");
+                Notification.show(validationError);
             }
         });
 
@@ -67,7 +72,31 @@ public class RegisterView extends VerticalLayout {
         add(formContainer);
     }
 
-    private boolean validateInput(TextField firstName, TextField lastName, EmailField email, PasswordField password) {
-        return !firstName.isEmpty() && !lastName.isEmpty() && !email.isInvalid() && !password.isEmpty();
+    private String validateInput(TextField firstName, TextField lastName, EmailField email, PasswordField password) {
+        if (firstName.isEmpty()) {
+            return "First name is required.";
+        }
+        if (lastName.isEmpty()) {
+            return "Last name is required.";
+        }
+        if (email.isEmpty()) {
+            return "Email is required.";
+        }
+        if (email.isInvalid()) {
+            return "Please enter a valid email address.";
+        }
+        if (password.isEmpty()) {
+            return "Password is required.";
+        }
+        if (!isPasswordStrong(password.getValue())) {
+            return "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+        }
+        return null;
+    }
+
+    private boolean isPasswordStrong(String password) {
+        // Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one digit, and one special character
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return password.matches(passwordPattern);
     }
 }

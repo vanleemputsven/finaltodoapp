@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface TodoRepository extends JpaRepository<Todo, UUID> {
     List<Todo> findByUserId(UUID userId);
+    List<Todo> findByUserIdAndTitleContainingIgnoreCase(UUID userId, String title);
 }

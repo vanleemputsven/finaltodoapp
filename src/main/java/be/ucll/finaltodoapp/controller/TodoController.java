@@ -2,7 +2,9 @@ package be.ucll.finaltodoapp.controller;
 
 import be.ucll.finaltodoapp.entity.Todo;
 import be.ucll.finaltodoapp.service.TodoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +14,12 @@ import java.util.UUID;
 @RequestMapping("/api/todos")
 public class TodoController {
     private final TodoService todoService;
+    private final JmsTemplate jmsTemplate;
 
-    public TodoController(TodoService todoService) {
+    @Autowired
+    public TodoController(TodoService todoService, JmsTemplate jmsTemplate) {
         this.todoService = todoService;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @GetMapping
@@ -55,5 +60,16 @@ public class TodoController {
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/sendTodo")
+    public ResponseEntity<String> sendTodoToQueue(
+            @RequestParam String email,
+            @RequestParam String title,
+            @RequestParam String comment,
+            @RequestParam String expiryDate) {
+        String message = String.join(",", email, title, comment, expiryDate);
+        jmsTemplate.convertAndSend("todo.queue", message);
+        return ResponseEntity.ok("Message sent to the queue!");
     }
 }

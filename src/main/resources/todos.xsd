@@ -1,0 +1,20 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://finaltodoapp.ucll.be/todos" targetNamespace="http://finaltodoapp.ucll.be/todos" elementFormDefault="qualified">
+    <xs:element name="addTodoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="title" type="xs:string"/>
+                <xs:element name="comment" type="xs:string"/>
+                <xs:element name="expiryDate" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addTodoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

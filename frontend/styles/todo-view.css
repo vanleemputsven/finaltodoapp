@@ -1,33 +1,62 @@
-.warning {
-    background-color: #ffcccb;
-}
+
 .todo-view {
     background-color: #f8f9fa;
     padding: 20px;
 }
 
-/* Header styling */
+.warning {
+    background-color: #ffcccb;
+}
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.left-section, .right-section {
+    display: flex;
+    align-items: center;
+}
+
+.left-section {
+    gap: 20px;
+}
+
+.right-section {
+    gap: 10px;
+}
+
 .toolbar {
-    background-color: #ffffff;
+    background-color: #f8f9fa;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     padding: 10px 20px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .current-date {
-    font-size: 18px;
-    color: #333333;
+    font-size: 20px;
+    color: #495057;
     font-weight: bold;
 }
 
-/* Button styling */
+.user-name {
+    font-weight: bold;
+    color: #495057;
+    margin-left: 10px;
+}
+
 .button {
     background-color: #2c2f31;
     color: #ffffff;
 }
 
-/* Grid styling */
 .grid {
     background-color: #ffffff;
     border-radius: 10px;
@@ -43,11 +72,9 @@
     cursor: pointer;
 }
 
-
-
 .action-button:hover {
     background-color: #e8f0fe;
-    color: #1b1e1e;;
+    color: #1b1e1e;
 }
 
 .action-button[theme~="icon"] iron-icon {
@@ -61,7 +88,7 @@
 
 .action-button[theme~="error"]:hover {
     background-color: var(--lumo-error-color-10pct);
-    color: var(--lumo-error-color)
+    color: var(--lumo-error-color);
 }
 
 .login-view {
@@ -84,4 +111,39 @@
     margin-top: 15px;
     color: #2c2f31;
     text-decoration: none;
+}
+
+.upload {
+    border: 1px dashed #6c757d;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.welcome-message {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.add-todo-button {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.add-todo-button:hover {
+    background-color: #218838;
+}
+
+.search-field {
+    max-width: 300px;
+    margin-right: 10px;
 }
